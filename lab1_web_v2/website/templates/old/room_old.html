@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Chat Room{% endblock %}
+
+{% block content %}
+    <h2>Room {{ room_id }}</h2>
+    <div id="messages">
+        {% for message in messages %}
+            <p><strong>{{ message['user'] }}:</strong> {{ message['text'] }}</p>
+        {% endfor %}
+    </div>
+    <form action="/rooms/{{ room_id }}/send" method="post">
+        <input type="text" name="text" required>
+        <button type="submit">Send</button>
+    </form>
+{% endblock %}

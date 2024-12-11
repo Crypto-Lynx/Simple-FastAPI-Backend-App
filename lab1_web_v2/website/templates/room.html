@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block title %}Чат комнаты{% endblock %}
+
+{% block content %}
+    <h2>Комната: {{ room_name }}</h2>
+    <p>Здесь будет чат для комнаты {{ room_name }}.</p>
+    <a href="/rooms">Перейти в список комнат</a>
+    <a href="/profile">Перейти в профиль</a>
+{% endblock %}

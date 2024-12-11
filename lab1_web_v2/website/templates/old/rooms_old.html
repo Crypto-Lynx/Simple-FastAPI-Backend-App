@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Rooms{% endblock %}
+
+{% block content %}
+    <h2>Chat Rooms</h2>
+    <ul>
+        {% for room in rooms %}
+            <li><a href="/rooms/{{ room['_id'] }}">{{ room['name'] }}</a></li>
+        {% endfor %}
+    </ul>
+    <form action="/rooms/create" method="post">
+        <label for="name">Room Name:</label>
+        <input type="text" id="name" name="name" required>
+        <button type="submit">Create Room</button>
+    </form>
+{% endblock %}

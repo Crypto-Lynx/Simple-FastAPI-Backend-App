@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+    <h2>Register</h2>
+    <form id="registerForm">
+        <label for="email">Mail:</label>
+        <input type="text" id="email" name="email" required>
+        
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        
+        <button type="submit">Register</button>
+    </form>
+
+    <script>
+        document.getElementById("registerForm").addEventListener("submit", async function(event) {
+            event.preventDefault(); // предотвращаем стандартную отправку формы
+
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            const response = await fetch("/register/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ email: email, password: password })
+            });
+
+            if (response.ok) {
+                window.location.href = "/login"; // перенаправление на страницу логина при успехе
+            } else {
+                const errorData = await response.json();
+                alert("Ошибка регистрации: " + errorData.detail);
+            }
+        });
+    </script>
+{% endblock %}

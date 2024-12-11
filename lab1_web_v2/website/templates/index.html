@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Главная страница{% endblock %}
+
+{% block content %}
+    <p>Привет, {% if user_mail %} {{ user_mail }} {% else %} Гость {% endif %}!</p>
+
+    <ul>
+        <li><a href="/profile">Профиль</a></li>
+        <li><a href="/login">Войти</a></li>
+        <li><a href="/register">Регистрация</a></li>
+    </ul>
+{% endblock %}

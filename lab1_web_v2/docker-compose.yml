@@ -1,0 +1,44 @@
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: chat_db
+    volumes:
+      - ./db:/var/lib/postgresql/data
+
+
+  website:
+    build: ./website
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./website:/app
+    depends_on:
+      - db
+    restart: on-failure
+    environment:
+      - WATCHFILES_FORCE_POLLING=true
+
+  chat:
+    build: ./chat
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./chat:/app
+    depends_on:
+      - db
+    environment:
+      - PYTHONPATH=/app
+      - WATCHFILES_FORCE_POLLING=true
+
+
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - website
+      - chat

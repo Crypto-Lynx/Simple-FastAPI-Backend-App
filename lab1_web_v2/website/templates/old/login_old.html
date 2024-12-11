@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+    <h2>Login</h2>
+    <form id="loginForm">
+        <label for="email">Mail:</label>
+        <input type="text" id="email" name="email" required>
+        
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        
+        <button type="submit">Login</button>
+    </form>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", async function(event) {
+            event.preventDefault(); // предотвращаем стандартную отправку формы
+
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            // Создаем FormData для отправки данных как application/x-www-form-urlencoded
+            const formData = new FormData();
+            formData.append("username", email);  // для OAuth2PasswordRequestForm ожидается "username"
+            formData.append("password", password);
+
+            // Отправляем запрос с formData
+            const response = await fetch("/login/", {
+                method: "POST",
+                body: formData
+            });
+
+            if (response.ok) {
+                // Обработка успешного входа
+                const data = await response.json();
+                alert("Login successful!"); // Уведомление об успешном входе
+
+                // Сохраняем токен в localStorage
+                localStorage.setItem("access_token", data.access_token);
+
+                // Перенаправляем на защищённую страницу
+                window.location.href = "/rooms";
+            } else {
+                // Обработка ошибки авторизации
+                const errorData = await response.json();
+                alert("Ошибка входа: " + (errorData.detail || JSON.stringify(errorData)));
+            }
+        });
+    </script>
+{% endblock %}

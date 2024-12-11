@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Профиль{% endblock %}
+
+{% block content %}
+    <p>Добро пожаловать, {{ user.email }}!</p>
+    <ul>
+        <li><a href="/rooms">Перейти в список комнат</a></li>
+        <li><a href="/logout">Выход</a></li>
+    </ul>
+{% endblock %}
